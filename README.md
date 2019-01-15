@@ -1,2 +1,2 @@
 # SFS
-Saliency-Based Feature Selection
+Saliency-based Feature Selection
