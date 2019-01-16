@@ -4,7 +4,7 @@ from keras.layers import Dense, Activation, BatchNormalization, Dropout, Input, 
     Convolution2D, MaxPool2D, GlobalAveragePooling2D
 from keras.regularizers import l1, l2
 from src.layers import Mask, GaussianNoise
-from src import saliencies
+from src import saliency_function
 from scripts.deep.wide_residual_network import wrn_block
 
 
@@ -45,7 +45,7 @@ def cnnsimple(input_shape, nclasses=2, bn=True, kernel_initializer='he_normal',
     optimizer = optimizers.adam(lr=1e-2)
     model.compile(loss='categorical_crossentropy', optimizer=optimizer, metrics=['acc'])
 
-    model.saliency = saliencies.get_saliency('categorical_crossentropy', model)
+    model.saliency = saliency_function.get_saliency('categorical_crossentropy', model)
 
     return model
 
@@ -96,7 +96,7 @@ def wrn164(
     optimizer = optimizers.SGD(lr=1e-1)
     model.compile(loss='categorical_crossentropy', optimizer=optimizer, metrics=['acc'])
 
-    model.saliency = saliencies.get_saliency('categorical_crossentropy', model)
+    model.saliency = saliency_function.get_saliency('categorical_crossentropy', model)
 
     return model
 

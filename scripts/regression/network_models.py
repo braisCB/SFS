@@ -3,7 +3,7 @@ from keras import backend as K, optimizers
 from keras.layers import Dense, Activation, BatchNormalization, Dropout, Input, Flatten
 from keras.regularizers import l1, l2
 from src.layers import Mask
-from src import saliencies
+from src import saliency_function
 
 
 def dense(input_shape, layer_dims=None, bn=True, kernel_initializer='he_normal',
@@ -37,7 +37,7 @@ def dense(input_shape, layer_dims=None, bn=True, kernel_initializer='he_normal',
     optimizer = optimizers.adam(lr=1e-3)
     model.compile(loss='mean_squared_error', optimizer=optimizer, metrics=['mae'])
 
-    model.saliency = saliencies.get_saliency('mean_squared_error', model)
+    model.saliency = saliency_function.get_saliency('mean_squared_error', model)
 
     return model
 

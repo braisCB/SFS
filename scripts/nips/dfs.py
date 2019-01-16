@@ -1,7 +1,7 @@
 from dataset_reader.nips import load_dataset
 from src.SFS import get_rank
 from src.layers import Mask
-from src import saliencies
+from src import saliency_function
 from src.utils import balance_data
 from keras.layers import Activation, Dense, Input, Dropout, BatchNormalization
 from sklearn.svm import SVC as sklearn_SVC
@@ -64,7 +64,7 @@ def create_model(input_shape, nclasses=2, layer_dims=None, bn=True, kernel_initi
     optimizer = optimizers.adam(lr=1e-2)
     model.compile(loss='categorical_crossentropy', optimizer=optimizer, metrics=['acc'])
 
-    model.saliency = saliencies.get_saliency('categorical_crossentropy', model)
+    model.saliency = saliency_function.get_saliency('categorical_crossentropy', model)
 
     return model
 

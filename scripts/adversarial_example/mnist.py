@@ -2,7 +2,7 @@ from keras.utils import to_categorical
 from keras import callbacks
 from keras.datasets import mnist
 from scripts.deep import network_models
-from src import saliencies, layers
+from src import saliency_function, layers
 from keras.models import save_model, load_model
 import matplotlib.pyplot as plt
 import numpy as np
@@ -154,7 +154,7 @@ def main():
             os.makedirs(directory)
         save_model(model, directory + model_filename)
 
-    model.saliency = saliencies.get_saliency('categorical_crossentropy', model, reduce_func=None, use_abs=False)
+    model.saliency = saliency_function.get_saliency('categorical_crossentropy', model, reduce_func=None, use_abs=False)
 
     samples = []
     for i in range(1, 2):

@@ -84,7 +84,7 @@ def get_saliency_for_classification(
         generator=None, generator_kwargs=None, generator_epochs=50, horizontal_flip=False
 ):
     label_ids = np.unique(label) if label.ndim == 1 else list(range(label.shape[-1]))
-    saliencies = []
+    saliency_function = []
     if isinstance(class_func, str):
         class_func = getattr(np, class_func)
     data_, label_ = utils.balance_data(data, label) if balance_data else data, label
@@ -97,15 +97,15 @@ def get_saliency_for_classification(
                 data_[index][..., ::-1, :], label_[index], saliency_function, batch_size, reduce_func
             )
         label_saliency /= np.maximum(1e-6, np.sum(np.abs(label_saliency)))
-        saliencies.append(label_saliency)
+        saliency_function.append(label_saliency)
     saliency = class_func(
-        saliencies,
+        saliency_function,
         axis=0
     )
-    # factor = np.sign(np.max(saliencies, axis=0))
+    # factor = np.sign(np.max(saliency_function, axis=0))
     # print('bad values :', (factor < 0).sum())
     saliency /= np.maximum(1e-6, np.abs(saliency).sum())
-    del data_, label_, saliencies
+    del data_, label_, saliency_function
     return saliency
 
 

@@ -3,7 +3,7 @@ from sklearn.svm import SVC as sklearn_SVC
 from sklearn.linear_model import ElasticNet as sklearn_ElasticNet
 from keras.layers import Dense, Input, Lambda
 from src.kernels import RBF, Poly, Sigmoid, Linear
-from src import saliencies, initializers as custom_initializers
+from src import saliency_function, initializers as custom_initializers
 from keras.models import Model
 from keras import optimizers
 import numpy as np
@@ -107,8 +107,8 @@ class SVC(object):
         self.input = self.model.input
         optimizer = optimizers.SGD(0.1)
         self.model.compile(loss=self.__loss_function('square_hinge'), optimizer=optimizer, metrics=['acc'])
-        self.saliency = saliencies.get_saliency('sklearn_hinge', self.model, reduce_func=self.saliency_reduce_func)
-        # self.saliency = saliencies.get_saliency_gradient('sklearn_hinge', self.model)
+        self.saliency = saliency_function.get_saliency('sklearn_hinge', self.model, reduce_func=self.saliency_reduce_func)
+        # self.saliency = saliency_function.get_saliency_gradient('sklearn_hinge', self.model)
 
     def __loss_function(self, loss_function):
         def loss(y_true, y_pred):
@@ -192,7 +192,7 @@ class ElasticNet(object):
         self.input = self.model.input
         optimizer = optimizers.SGD(0.1)
         self.model.compile(loss='mse', optimizer=optimizer, metrics=['acc'])
-        self.saliency = saliencies.get_saliency('mse', self.model)
+        self.saliency = saliency_function.get_saliency('mse', self.model)
 
     def evaluate(self, X, y, batch_size=None, verbose=1):
         model_eval = self.model.evaluate(X, y, batch_size=batch_size, verbose=verbose)
@@ -298,7 +298,7 @@ class KernelElasticNet(object):
         self.input = self.model.input
         optimizer = optimizers.SGD(0.1)
         self.model.compile(loss='mse', optimizer=optimizer, metrics=['acc'])
-        self.saliency = saliencies.get_saliency('mse', self.model)
+        self.saliency = saliency_function.get_saliency('mse', self.model)
 
     def evaluate(self, X, y, mask=None, batch_size=None, verbose=1):
         if mask is None:
