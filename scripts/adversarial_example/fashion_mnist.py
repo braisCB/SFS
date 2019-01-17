@@ -1,6 +1,6 @@
 from keras.utils import to_categorical
 from keras import callbacks
-from keras.datasets import mnist
+from keras.datasets import fashion_mnist
 from scripts.deep import network_models
 from src import saliency_function, layers
 from keras.models import save_model, load_model
@@ -19,11 +19,11 @@ batch_size = 128
 lasso = 0.
 regularization = 5e-4
 lr = .01
-input_noise = .5
+input_noise = .0
 
 directory = './scripts/adversarial_example/info/'
 network_name = 'wrn164'
-model_filename = 'mnist_wrn164.h5'
+model_filename = 'fashion_mnist_wrn164.h5'
 
 
 def scheduler(epoch):
@@ -53,7 +53,7 @@ def learning_rate(accuracy):
 
 
 def load_dataset(normalize=False):
-    (x_train, y_train), (x_test, y_test) = mnist.load_data()
+    (x_train, y_train), (x_test, y_test) = fashion_mnist.load_data()
     x_train = np.expand_dims(x_train, axis=-1).astype(float)
     x_test = np.expand_dims(x_test, axis=-1).astype(float)
     generator = ImageDataGenerator()
@@ -185,6 +185,9 @@ def main():
                 prediction = model.predict(np.asarray([label_sample]))[0]
                 print(label, prediction[label])
             i_samples.append(label_sample)
+            # for c, s in enumerate(i_samples):
+            #     sample_images([[s]], filename=directory + 'iimage_' + str(i) + '_' + str(c) + '.png')
+            # sample_images([i_samples], filename=directory + 'iimage_' + str(i) + '.png')
         samples.append(i_samples)
 
     sample_images(samples, filename=directory + 'image.png')
