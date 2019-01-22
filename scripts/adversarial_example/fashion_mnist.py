@@ -19,9 +19,9 @@ batch_size = 128
 lasso = 0.
 regularization = 5e-4
 lr = .01
-input_noise = .0
+input_noise = .5
 
-directory = './scripts/adversarial_example/info/'
+directory = './scripts/adversarial_example/info_ruido/'
 network_name = 'wrn164'
 model_filename = 'fashion_mnist_wrn164.h5'
 
@@ -56,7 +56,12 @@ def load_dataset(normalize=False):
     (x_train, y_train), (x_test, y_test) = fashion_mnist.load_data()
     x_train = np.expand_dims(x_train, axis=-1).astype(float)
     x_test = np.expand_dims(x_test, axis=-1).astype(float)
-    generator = ImageDataGenerator()
+    generator = ImageDataGenerator(
+        width_shift_range=4./28,
+        height_shift_range=4./28,
+        fill_mode='nearest',
+        horizontal_flip=True
+    )
     y_train = np.reshape(y_train, [-1, 1])
     y_test = np.reshape(y_test, [-1, 1])
     if normalize:
