@@ -56,12 +56,10 @@ def load_dataset(normalize=False):
     (x_train, y_train), (x_test, y_test) = fashion_mnist.load_data()
     x_train = np.expand_dims(x_train, axis=-1).astype(float)
     x_test = np.expand_dims(x_test, axis=-1).astype(float)
-    generator = ImageDataGenerator(
-        width_shift_range=4./28,
-        height_shift_range=4./28,
-        fill_mode='nearest',
-        horizontal_flip=True
-    )
+    generator = ImageDataGenerator(width_shift_range=4. / 32,
+                                   height_shift_range=4. / 32,
+                                   fill_mode='nearest',
+                                   horizontal_flip=True)
     y_train = np.reshape(y_train, [-1, 1])
     y_test = np.reshape(y_test, [-1, 1])
     if normalize:
@@ -100,7 +98,7 @@ def sample_images(samples, filename, show_diff=False):
         for j in range(c):
             if j == 0 or not show_diff:
                 image = samples[i, j][..., 0]
-                image[image > .2] = 1.
+                # image[image > .2] = 1.
                 # normalize
                 # image = (image - image.min()) / (image.max() - image.min())
                 axs[i, j].imshow(image, cmap='gray')
@@ -164,7 +162,7 @@ def main():
     model.saliency = saliency_function.get_saliency('categorical_crossentropy', model, reduce_func=None, use_abs=False)
 
     samples = []
-    for i in range(1, 2):
+    for i in range(num_classes):
         print('label', i)
         pos = np.where(test_labels[:, i] > 0.)[0]
         np.random.seed(42)

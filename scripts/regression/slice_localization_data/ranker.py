@@ -21,7 +21,7 @@ epochs = 60
 reps = 10
 
 dataset_names = ['slice_localization_data']
-sd_directory = './scripts/regression/info/'
+sd_directory = './scripts/regression/slice_localization_data/info/'
 dataset_directory = './datasets/regression/'
 network_name = 'dense'
 methods = ['sfs', 'dfs']
@@ -143,5 +143,5 @@ def main():
 
 
 if __name__ == '__main__':
-    os.chdir('../../')
+    os.chdir('../../../')
     main()

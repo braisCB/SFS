@@ -159,7 +159,7 @@ def main():
     model.saliency = saliency_function.get_saliency('categorical_crossentropy', model, reduce_func=None, use_abs=False)
 
     samples = []
-    for i in range(1, 2):
+    for i in range(num_classes):
         print('label', i)
         pos = np.where(test_labels[:, i] > 0.)[0]
         np.random.seed(42)
