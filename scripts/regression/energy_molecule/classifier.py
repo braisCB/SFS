@@ -21,7 +21,7 @@ config.gpu_options.per_process_gpu_memory_fraction = 0.4
 set_session(tf.Session(config=config))
 
 dataset_names = ['slice_localization_data']
-sd_directory = './scripts/regression/info/'
+sd_directory = './scripts/regression/energy_molecule/info/'
 dataset_directory = './datasets/regression/'
 network_name = 'dense'
 
@@ -48,7 +48,7 @@ def scheduler(epoch):
 
 
 if __name__ == '__main__':
-    os.chdir('../../')
+    os.chdir('../../../')
     for dataset_name in dataset_names:
         print('loading dataset', dataset_name)
         dataset = load_dataset(dataset_name, directory=dataset_directory)

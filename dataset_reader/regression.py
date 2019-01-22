@@ -15,6 +15,11 @@ def download_dataset(dataset_name, directory=None):
     if dataset_name == 'slice_localization_data':
         url = 'https://archive.ics.uci.edu/ml/machine-learning-databases/00206/slice_localization_data.zip'
         filename = dataset_name + '.zip'
+    elif dataset_name == 'energy-molecule':
+        filename = 'energy-molecule.zip'
+        if not os.path.exists(directory + '/' + filename):
+            raise Exception('Energy molecule dataset cannot be directly downloaded. ' +
+                            'Please go to https://www.kaggle.com/burakhmmtgl/energy-molecule')
     else:
         raise Exception(dataset_name + ' is not a known dataset')
 
@@ -27,11 +32,16 @@ def download_dataset(dataset_name, directory=None):
 def load_dataset(dataset_name, directory=None, normalize=True):
     directory = './datasets' if directory is None else directory
     filename = download_dataset(dataset_name, directory=directory)
-    if dataset_name == 'slice_localization_data':
-        archive = zipfile.ZipFile(filename, 'r')
-        csv_file = archive.filelist[0].filename
+    archive = zipfile.ZipFile(filename, 'r')
+    csv_file = archive.filelist[0].filename
+    if dataset_name in ['slice_localization_data', 'energy-molecule']:
         with archive.open(csv_file) as f:
             data = pd.read_csv(f).values
+            if dataset_name == 'energy-molecule':
+                permutation = np.arange(data.shape[-1] - 1)
+                permutation[0] = permutation[-1]
+                permutation[-1] += 1
+                data = data[:, permutation]
             id = data[:, 0].astype(int)
             data = data[:, 1:]
             if normalize:

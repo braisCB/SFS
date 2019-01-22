@@ -11,9 +11,9 @@ dataset_names = [
 gamma = 0.9
 
 if __name__ == '__main__':
-    os.chdir('../../')
+    os.chdir('../../../')
     for dataset_name in dataset_names:
-        directory = './scripts/regression/info/'
+        directory = './scripts/regression/slice_localization_data/info/'
 
         fs_filename = directory + dataset_name + '_' + str(gamma) + '_result.json'
 
