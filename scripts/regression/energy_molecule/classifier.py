@@ -11,7 +11,7 @@ from keras.backend.tensorflow_backend import set_session
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 reps = 10
-regularization = 0.001
+regularization = 5e-4
 gamma = 0.9
 epochs = 60
 batch_size = 128
@@ -20,7 +20,7 @@ config = tf.ConfigProto()
 config.gpu_options.per_process_gpu_memory_fraction = 0.4
 set_session(tf.Session(config=config))
 
-dataset_names = ['slice_localization_data']
+dataset_names = ['energy-molecule']
 sd_directory = './scripts/regression/energy_molecule/info/'
 dataset_directory = './datasets/regression/'
 network_name = 'dense'

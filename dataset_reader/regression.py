@@ -47,6 +47,8 @@ def load_dataset(dataset_name, directory=None, normalize=True):
             if normalize:
                 mean = data.mean(axis=0)
                 std = np.maximum(1e-6, data.std(axis=0))
+                mean[-1] = 0.
+                std[-1] = 1.
                 data = (data - mean) / std
             else:
                 mean = 0.0

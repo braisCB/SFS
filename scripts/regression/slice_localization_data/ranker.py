@@ -93,7 +93,7 @@ def main():
 
             for fs_mode in methods:
                 for lasso in [0.0, 5e-4]:
-                    if lasso == 0.0 and fs_mode == 'lasso':
+                    if lasso == 0.0 and fs_mode == 'dfs':
                         continue
                     print('reps : ', reps)
                     print('method : ', fs_mode)

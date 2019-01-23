@@ -17,8 +17,8 @@ set_session(tf.Session(config=config))
 
 gamma = 0.
 b_size = 128
-epochs = 60
-reps = 10
+epochs = 600
+reps = 2
 
 dataset_names = ['energy-molecule']
 sd_directory = './scripts/regression/energy_molecule/info/'
@@ -26,20 +26,22 @@ dataset_directory = './datasets/regression/'
 network_name = 'dense'
 methods = ['sfs', 'dfs']
 
+np.random.seed(42)
+
 
 def scheduler(epoch, wrn=False):
-    if epoch < 15:
+    if epoch < 150:
         return 0.01
-    elif epoch < 30:
+    elif epoch < 300:
         return 0.002
-    elif epoch < 45:
+    elif epoch < 450:
         return 0.0004
     else:
         return 0.00008
 
 
 rank_kwargs = {
-    'reps': 10,
+    'reps': reps,
     'gamma': gamma,
     'epsilon': 60
 }
@@ -82,8 +84,8 @@ def main():
             fit_kwargs['batch_size'] = batch_size
 
             for fs_mode in methods:
-                for lasso in [0.0, 5e-4]:
-                    if lasso == 0.0 and fs_mode == 'lasso':
+                for lasso in [0., 5e-4]:
+                    if lasso == 0.0 and fs_mode == 'dfs':
                         continue
                     print('reps : ', reps)
                     print('method : ', fs_mode)
